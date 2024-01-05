@@ -24,9 +24,48 @@ class RouletteBetting {
 
         this.bets.forEach(bet => {
             const { name, numbers, betAmount } = bet;
+
+            // Check for bets on first 12, second 12, third 12
+            if (name === '1st12' && winningNumber >= 1 && winningNumber <= 12) {
+                const winnings = betAmount * 2 + betAmount; // Include original bet
+                winners.push({ name, winnings });
+                totalPayout += winnings;
+            } else if (name === '2nd12' && winningNumber >= 13 && winningNumber <= 24) {
+                const winnings = betAmount * 2 + betAmount; // Include original bet
+                winners.push({ name, winnings });
+                totalPayout += winnings;
+            } else if (name === '3rd12' && winningNumber >= 25 && winningNumber <= 36) {
+                const winnings = betAmount * 2 + betAmount; // Include original bet
+                winners.push({ name, winnings });
+                totalPayout += winnings;
+            }
+
+            // Check for odd/even bets
+            if (name === 'Odd' && winningNumber % 2 !== 0) {
+                const winnings = betAmount * 2 + betAmount; // Include original bet
+                winners.push({ name, winnings });
+                totalPayout += winnings;
+            } else if (name === 'Even' && winningNumber % 2 === 0) {
+                const winnings = betAmount * 2 + betAmount; // Include original bet
+                winners.push({ name, winnings });
+                totalPayout += winnings;
+            }
+
+            // Check for specific number bets
             if (numbers.includes(winningNumber)) {
                 const payoutRatio = this.getPayoutRatio(numbers.length);
                 const winnings = betAmount * payoutRatio + betAmount; // Include original bet
+                winners.push({ name, winnings });
+                totalPayout += winnings;
+            }
+
+            // Check for bets on red and black
+            if (name === 'Red' && this.isRed(winningNumber)) {
+                const winnings = betAmount * 2 + betAmount; // Include original bet
+                winners.push({ name, winnings });
+                totalPayout += winnings;
+            } else if (name === 'Black' && !this.isRed(winningNumber)) {
+                const winnings = betAmount * 2 + betAmount; // Include original bet
                 winners.push({ name, winnings });
                 totalPayout += winnings;
             }
